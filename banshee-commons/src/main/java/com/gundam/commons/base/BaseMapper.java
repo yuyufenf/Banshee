@@ -1,6 +1,6 @@
 package com.gundam.commons.base;
 
-import com.gundam.commons.entity.Cascade;
+import com.gundam.commons.entity.BaseCascade;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.List;
  * @author kampf
  * @date 2020/4/8 下午3:30
  */
-public interface BaseMapper<T, Query> {
+public interface BaseMapper<T extends BaseCascade<T>, Query> {
 
     /**
      * 通用获取可用的父级级联表
      * @return 级联表
      */
-    List<Cascade> queryCascade();
+    List<T> queryCascade();
 
     /**
      * 通用信息新增

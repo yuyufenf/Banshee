@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 用户登录专用数据接受对象
  * @author kampf
  * @date 2020/4/8 下午3:30
  */

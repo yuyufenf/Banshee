@@ -3,9 +3,9 @@ package com.gundam.commons.utils;
 import java.security.MessageDigest;
 
 /**
- * @author zj
- * @date 2020/2/13 20:54
- * @Description md加密生成32的加密密码
+ * md生成32位加密密码
+ * @author kampf
+ * @date 2020/4/8 下午3:30
  */
 public class KemMd5Util {
 
@@ -40,9 +40,4 @@ public class KemMd5Util {
             return null;
         }
     }
-
-//    public static void main(String[] args) {
-//        System.out.println(MD5("nishidashabi@zhu"));
-//    }
-
 }

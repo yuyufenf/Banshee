@@ -15,6 +15,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class RespResult implements Serializable {
 
+    private static final long serialVersionUID = -140509914993350120L;
+
     @ApiModelProperty(value="请求是否成功", position = 1)
     private boolean flag;
     @ApiModelProperty(value="请求响应状态码", position = 2)

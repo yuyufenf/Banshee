@@ -1,9 +1,7 @@
 package com.gundam.commons.base;
 
-import com.gundam.commons.entity.Cascade;
 import com.gundam.commons.entity.RespCode;
 import com.gundam.commons.entity.RespResult;
-import com.gundam.commons.utils.CascadeUtil;
 import com.gundam.commons.utils.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

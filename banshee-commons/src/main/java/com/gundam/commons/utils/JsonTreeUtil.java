@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author zj
- * @date 2020/2/11 22:04
- * @Description 生成级联菜单
+ * 生成Json级联菜单
+ * @author kampf
+ * @date 2020/4/8 下午3:30
  */
 public class JsonTreeUtil<T extends BaseCascade<T>> {
 

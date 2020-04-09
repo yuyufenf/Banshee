@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author zj
- * @date 2019/12/25 16:43
- * @Description token生成与校验方法
+ * token生成与校验
+ * @author kampf
+ * @date 2020/4/8 下午3:30
  */
 public class JwtUtil {
 

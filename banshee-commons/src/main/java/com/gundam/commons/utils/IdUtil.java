@@ -1,9 +1,9 @@
 package com.gundam.commons.utils;
 
 /**
- * @author zj
- * @Description 使用twitter的SnowFlake生成18位纯数字ID，适用于微服务、分布式服务中(例如:377874751659577347)
- * @date 2019/10/5 0005
+ * 使用twitter的SnowFlake生成18位纯数字ID，适用于微服务、分布式服务中(例如:377874751659577347)
+ * @author kampf
+ * @date 2020/4/9 下午3:49
  */
 @SuppressWarnings("AlibabaUndefineMagicConstant")
 public class IdUtil {
@@ -90,14 +90,4 @@ public class IdUtil {
     private long getNewstmp() {
         return System.currentTimeMillis();
     }
-
-//    public static void main(String[] args) {
-//        IdUtil idUtil = new IdUtil(1, 1);
-//        long start = System.currentTimeMillis();
-//        for (int i = 0; i < 1000000; i++) {
-//            System.out.println(idUtil.nextId());
-//        }
-//        System.out.println(System.currentTimeMillis() - start);
-//    }
-
 }
