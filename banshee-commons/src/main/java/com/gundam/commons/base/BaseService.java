@@ -17,25 +17,28 @@ public interface BaseService<T, Query> {
     RespResult queryCascade();
 
     /**
-     * 通用查询接口
+     * 通用新增接口
      * @param t 新增所需的参数实体类
+     * @param message 返回语句说明,输入模块名称即可
      * @return 统一响应数据
      */
-    RespResult insert(T t);
+    RespResult insert(T t, String message);
 
     /**
      * 通用删除接口
-     * @param param 删除条件
+     * @param id 删除字段id
+     * @param message 返回语句说明,输入模块名称即可
      * @return 统一响应数据
      */
-    RespResult delete(String param);
+    RespResult delete(long id, String message);
 
     /**
      * 通用修改接口
      * @param t 修改所需的参数实体类
+     * @param message 返回语句说明,输入模块名称即可
      * @return 统一响应数据
      */
-    RespResult modify(T t);
+    RespResult modify(T t, String message);
 
     /**
      * 通用的分页条件查询

@@ -1,5 +1,6 @@
 package com.gundam.commons.base;
 
+import com.gundam.commons.utils.IdUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -15,6 +16,8 @@ import java.util.Date;
 public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2383962095358069350L;
+
+    private IdUtil idUtil = new IdUtil(1, 1);
 
     @ApiModelProperty(value = "字段ID(\"后端自动生成\")", required = true)
     protected Long id;
@@ -32,6 +35,7 @@ public abstract class BaseEntity implements Serializable {
     protected String remark;
 
     protected BaseEntity(){
+        this.id = idUtil.nextId();
         this.createDate = new Date(System.currentTimeMillis());
         this.deal = 0;
     }

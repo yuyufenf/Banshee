@@ -44,7 +44,7 @@ public interface BaseMapper<T, Query> {
      * @param id 删除条件
      * @return 是否删除成功
      */
-    int delete(String id);
+    int delete(long id);
 
     /**
      * 分页条件总数查询
