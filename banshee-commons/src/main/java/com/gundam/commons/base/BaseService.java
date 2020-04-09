@@ -11,12 +11,6 @@ import com.gundam.commons.entity.RespResult;
 public interface BaseService<T, Query> {
 
     /**
-     * 通用获取可用的父级级联表
-     * @return 级联表
-     */
-    RespResult queryCascade();
-
-    /**
      * 通用新增接口
      * @param t 新增所需的参数实体类
      * @param message 返回语句说明,输入模块名称即可

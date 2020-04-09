@@ -2,7 +2,7 @@ package com.gundam.commons.base;
 
 import com.gundam.commons.entity.RespCode;
 import com.gundam.commons.entity.RespResult;
-import com.gundam.commons.utils.PageUtil;
+import com.gundam.commons.utils.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +23,6 @@ public class BaseServiceImpl<T, Query> implements BaseService<T, Query>{
     @Resource
     BaseMapper<T, Query> baseMapper;
 
-    /**
-     * 树结构查询
-     * @return
-     */
-    @Override
-    public RespResult queryCascade() {
-        List<Cascade> cascade = baseMapper.queryCascade();
-        List<Cascade> data = CascadeUtil.getCascade(cascade, "0");
-        return new RespResult(RespCode.SUCCESS,data);
-    }
 
     @Override
     public RespResult insert(T t, String message) {
@@ -57,7 +47,7 @@ public class BaseServiceImpl<T, Query> implements BaseService<T, Query>{
     public RespResult query(Query queryCondition) {
         int total = baseMapper.queryTotal(queryCondition);
         List<T> userList = baseMapper.query(queryCondition);
-        PageUtil data = new PageUtil();
+        Page data = new Page();
         data.setTotal(total);
         data.setData(userList);
         return new RespResult(RespCode.SUCCESS, data);

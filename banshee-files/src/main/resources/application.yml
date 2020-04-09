@@ -1,0 +1,113 @@
+
+server:
+  port: 11003
+spring:
+  application:
+    name: signature-files               # 配置服务名称
+  servlet:
+    multipart:
+      max-file-size: 3072MB
+      max-request-size: 3072MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/framework?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf-8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: developer
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 60000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 100000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico
+        session-stat-enable: true
+        session-stat-max-count: 10
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: admin
+        deny: 10.10.10.123
+      filter:
+        stat:
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 5000
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: true
+            drop-table-allow: false
+  cache:
+    redis:
+      use-key-prefix: true
+      time-to-live: 1d
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: wanjiakeji
+    database: 2
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  cloud:                                                                            # 注册中心配置
+    nacos:                                                                          # 注册中心(注意启动类上要加上@EnableDiscoveryClient)
+      discovery:
+        server-addr: http://localhost:7100                                          # 注册中心地址
+#        namespace:  bc86818d-97c8-4878-ba72-7d2c2b1242e7                           # nacos上
+auth:                                                                               # 自定义需要跳过权限认证的API、角色和方法
+  skip:
+    urls: login                                                                     # 需要跳过的API(只取主要的)
+    roles: admin                                                                    # 需要跳过的角色(该系统不在网关中进行角色判断)
+    requestMethods: get                                                             # 需要跳过的请求方式(目前该系统没使用)
+api:                                                                                # 是否开启api对内外访问，true为该api可以不通过网关访问，false为只能通过网关访问
+  isOpen: true                                                                      # 默认为API可以不通过网关访问
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      cors:
+        allow-credentials: true
+        allowed-headers: '*'
+        allowed-methods: GET,POST
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  health:
+    mail:
+      enabled: false
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml                                      # 与Mapper接口文件进行映射
+  typeAliasesPackage: com.wanjia.files.entity                                         # xml中标签的实体类对应的包的位置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+minio:                                                                                # 自建对象存储服务
+  url: http://localhost:9000                                                       # 服务地址
+  access-key: minioadmin                                                              # 服务账号
+  secret-key: minioadmin                                                              # 服务密码
+logging:
+  level:
+    com.alibaba.nacos.client.naming: error                                            # 注册中心跳信息的日志记录级别(为防止心跳日志过大，所以设置只记录error)

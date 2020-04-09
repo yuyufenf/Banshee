@@ -10,13 +10,7 @@ import java.util.List;
  * @author kampf
  * @date 2020/4/8 下午3:30
  */
-public interface BaseMapper<T extends BaseCascade<T>, Query> {
-
-    /**
-     * 通用获取可用的父级级联表
-     * @return 级联表
-     */
-    List<T> queryCascade();
+public interface BaseMapper<T, Query> {
 
     /**
      * 通用信息新增
