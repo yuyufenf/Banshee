@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 创建公用复用对象属性
  * @author kampf
  * @date 2020/4/8 下午3:41
  */

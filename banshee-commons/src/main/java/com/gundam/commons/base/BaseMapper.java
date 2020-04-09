@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
+ * 创建公用mapper接口
  * @author kampf
  * @date 2020/4/8 下午3:30
  */

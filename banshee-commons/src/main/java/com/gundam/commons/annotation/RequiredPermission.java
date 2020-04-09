@@ -3,6 +3,7 @@ package com.gundam.commons.annotation;
 import java.lang.annotation.*;
 
 /**
+ * 权限注解
  * @author kampf
  * @date 2020/4/8 下午3:30
  */

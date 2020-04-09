@@ -4,6 +4,7 @@ package com.gundam.commons.base;
 import com.gundam.commons.entity.RespResult;
 
 /**
+ * 创建公用事物接口
  * @author kampf
  * @date 2020/4/8 下午3:30
  */
