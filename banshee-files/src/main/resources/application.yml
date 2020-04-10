@@ -105,9 +105,9 @@ mybatis:
     map-underscore-to-camel-case: true
     cache-enabled: false
 minio:                                                                                # 自建对象存储服务
-  url: http://localhost:9000                                                       # 服务地址
-  access-key: minioadmin                                                              # 服务账号
-  secret-key: minioadmin                                                              # 服务密码
+  url: http://localhost:9000                                                          # 服务地址
+  accessKey: minioadmin                                                              # 服务账号
+  secretKey: minioadmin                                                              # 服务密码
 logging:
   level:
     com.alibaba.nacos.client.naming: error                                            # 注册中心跳信息的日志记录级别(为防止心跳日志过大，所以设置只记录error)
