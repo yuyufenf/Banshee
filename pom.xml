@@ -7,8 +7,10 @@
     <groupId>com.gundam</groupId>
     <artifactId>Banshee</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <modules>
         <module>banshee-commons</module>
+        <module>banshee-files</module>
     </modules>
     <name>Banshee</name>
     <description>个人分布式框架搭建</description>
