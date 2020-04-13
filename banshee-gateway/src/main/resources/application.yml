@@ -1,1 +1,187 @@
+server:
+  port: 11000
+spring:
+  application:
+    name: signature-gateway               # 配置服务名称
+  servlet:
+    multipart:
+      max-file-size: 3072MB
+      max-request-size: 3072MB
+  datasource:
+    url: jdbc:mysql://localhost:53306/YinJianKa?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf-8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: YinJianKa
+    password: YinJianKa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 60000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 100000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico
+        session-stat-enable: true
+        session-stat-max-count: 10
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: admin
+        deny: 10.10.10.123
+      filter:
+        stat:
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 5000
+        wall:
+          enabled: true
+          db-type: mysql
+          config:
+            delete-allow: true
+            drop-table-allow: false
+  cache:
+    redis:
+      use-key-prefix: true
+      time-to-live: 1d
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: wanjiakeji
+    database: 2
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  cloud:                                          # 配置网关
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      default-filters:
+      routes:
+        - id: signature-user
+          uri: lb://signature-user                        # 此处为服务名称，该名称为注册到注册中心的服务名称
+          predicates:
+            - Path=/api/v1/user/**                        # 配置url请求地址前缀此处user代表这个请求映射到user服务
+          filters:
+            - SwaggerHeaderFilter                         # swagger拦截器，进行多模块的swagger页面获取
+            - StripPrefix=3                               # 将Path中的前3位截断，后面即为真正要请求的下层服务URL
+            - name: Hystrix                               # 熔断器，做服务熔断降级处理
+              args:
+                name: authHystrixCommand
+                fallbackUri: forward:/hystrixTimeOut      # 网关进行服务降级的转发接口
+            # - name: RequestRateLimiter                  # 限流配置，需要对应的配置
+            #   args:
+            #     name:
+            #       redis-rate-limiter.replenishRate: 10
+            #       redis-rate-limiter.burstCapacity: 20
+            #       key-resolver: "#{@apiKeyResolver}"
+            - name: Retry                                 # 网关转发请求到下层服务失败，进行3次重试
+              args:
+                retries: 3
+                status: 404
+                statusSeries: 500
+                method: GET
+        - id: nacos-monitor
+          uri: lb://nacos-monitor
+          predicates:
+            - Path=/api/v1/monitor/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=3
+            - name: Hystrix
+              args:
+                name: authHystrixCommand
+                fallbackUri: forward:/hystrixTimeOut
+            # - name: RequestRateLimiter
+            #   args:
+            #     name:
+            #       redis-rate-limiter.replenishRate: 10
+            #       redis-rate-limiter.burstCapacity: 20
+            #       key-resolver: "#{@apiKeyResolver}"
+            - name: Retry
+              args:
+                retries: 3
+                status: 404
+                statusSeries: 500
+                method: GET
+    nacos:                                                                          # 注册中心(注意启动类上要加上@EnableDiscoveryClient)
+      discovery:
+        server-addr: http://192.168.1.20:7100                                       # 注册中心地址
+#        namespace:  bc86818d-97c8-4878-ba72-7d2c2b1242e7                            # nacos上
 
+
+signature-user:                                                                     # 服务名称
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule            # 针对指定的有分布式多实例的服务进行轮询访问，此处为线性轮询规则
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE                                                       # 熔断信号量
+          thread:
+            timeoutInMilliseconds: 3000                                             # 请求超时时间，超时后进行服务熔断降级，此时调用/hystrixTimeOut接口，接口在网关服务的controller中
+  shareSecurityContext: true
+
+
+auth:                                                                               # 自定义需要跳过权限认证的API、角色和方法
+  skip:
+    urls: login
+    roles: admin
+    requestMethods: get
+management:                                                                         # 进行健康检查和监控数据收集的配置
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      cors:
+        allow-credentials: true
+        allowed-headers: '*'
+        allowed-methods: GET,POST
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  health:
+    mail:
+      enabled: false
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  typeAliasesPackage: com.wanjia.gateway.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+
+executor:                                                                         # 自定义线程池的配置
+  corePoolSize: 3
+  maxPoolSize: 5
+  queueCapacity: 5
+
+
+logging:
+  level:
+    com.alibaba.nacos.client.naming: error
