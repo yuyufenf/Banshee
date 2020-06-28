@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 
 /**
@@ -17,7 +18,7 @@ public class RespResult implements Serializable {
 
     private static final long serialVersionUID = -140509914993350120L;
 
-    @ApiModelProperty(value="请求是否成功", position = 1)
+    @ApiModelProperty(value="后台判断成功值", position = 1)
     private boolean flag;
     @ApiModelProperty(value="请求响应状态码", position = 2)
     private int code;
@@ -26,36 +27,25 @@ public class RespResult implements Serializable {
     @ApiModelProperty(value="请求响应内容", position = 4)
     private Object data;
 
-    public RespResult(RespCode respCode){
+    private RespResult(RespCode respCode, Object data, Object... msg){
         this.flag = respCode.isFlag();
         this.code = respCode.getCode();
-        this.msg = respCode.getMsg();
-    }
-
-    public RespResult(RespCode respCode, Object data){
-        this.flag = respCode.isFlag();
-        this.code = respCode.getCode();
-        this.msg = respCode.getMsg();
+        this.msg = String.format(respCode.getMsg(), msg);
         this.data = data;
     }
 
-    public RespResult(RespCode respCode, String msg){
-        this.flag = respCode.isFlag();
-        this.code = respCode.getCode();
-        this.msg = msg;
+    public static RespResult success(HttpServletResponse response, Object data, String msg){
+        response.setStatus(200);
+        return new RespResult(RespCode.SUCCESS, data, msg);
     }
 
-    public RespResult(RespCode respCode, String msg, Object data){
-        this.flag = respCode.isFlag();
-        this.code = respCode.getCode();
-        this.msg = msg;
-        this.data = data;
+    public static RespResult error(HttpServletResponse response, RespCode respCode, String msg){
+        response.setStatus(respCode.getCode());
+        return new RespResult(respCode, null, msg);
     }
 
-    public RespResult(boolean flag, int code, String msg, Object data) {
-        this.flag = flag;
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
+    public static RespResult error(HttpServletResponse response, RespCode respCode, Object data, String msg){
+        response.setStatus(respCode.getCode());
+        return new RespResult(respCode, data, msg);
     }
 }

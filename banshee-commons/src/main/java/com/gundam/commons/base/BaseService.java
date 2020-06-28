@@ -3,6 +3,9 @@ package com.gundam.commons.base;
 
 import com.gundam.commons.entity.RespResult;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 创建公用事物接口
  * @author kampf
@@ -16,7 +19,7 @@ public interface BaseService<T, Query> {
      * @param message 返回语句说明,输入模块名称即可
      * @return 统一响应数据
      */
-    RespResult insert(T t, String message);
+    RespResult insert(HttpServletResponse response, HttpServletRequest request, T t, String message);
 
     /**
      * 通用删除接口
@@ -24,7 +27,7 @@ public interface BaseService<T, Query> {
      * @param message 返回语句说明,输入模块名称即可
      * @return 统一响应数据
      */
-    RespResult delete(long id, String message);
+    RespResult delete(HttpServletResponse response, HttpServletRequest request, long id, String message);
 
     /**
      * 通用修改接口
@@ -32,13 +35,13 @@ public interface BaseService<T, Query> {
      * @param message 返回语句说明,输入模块名称即可
      * @return 统一响应数据
      */
-    RespResult modify(T t, String message);
+    RespResult modify(HttpServletResponse response, HttpServletRequest request, T t, String message);
 
     /**
      * 通用的分页条件查询
      * @param queryCondition 查询条件实体类
      * @return 统一响应数据
      */
-    RespResult query(Query queryCondition);
+    RespResult query(HttpServletResponse response, HttpServletRequest request, Query queryCondition);
 
 }

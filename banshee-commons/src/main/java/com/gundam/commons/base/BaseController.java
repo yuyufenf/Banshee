@@ -4,6 +4,9 @@ package com.gundam.commons.base;
 import com.gundam.commons.entity.RespCode;
 import com.gundam.commons.entity.RespResult;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * controller集成熔断器
  * @author kampf
@@ -11,8 +14,8 @@ import com.gundam.commons.entity.RespResult;
  */
 public class BaseController {
 
-    public RespResult globalHystrix(){
-        return new RespResult(RespCode.CODE_HYSTRIX);
+    public RespResult globalHystrix(HttpServletRequest request, HttpServletResponse response){
+        return RespResult.error(response, RespCode.CODE_HYSTRIX, "");
     }
 
 }

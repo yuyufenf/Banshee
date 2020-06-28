@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -25,32 +27,32 @@ public class BaseServiceImpl<T, Query> implements BaseService<T, Query>{
 
 
     @Override
-    public RespResult insert(T t, String message) {
-        return storage(t, message, INSERT);
+    public RespResult insert(HttpServletResponse response, HttpServletRequest request, T t, String message) {
+        return storage(response, t, message, INSERT);
     }
 
     @Override
-    public RespResult delete(long id, String message) {
+    public RespResult delete(HttpServletResponse response, HttpServletRequest request, long id, String message) {
         int result = baseMapper.delete(id);
         if (result > 0){
-            return new RespResult(RespCode.SUCCESS, message + "删除成功");
+            return RespResult.success(response, null, message + "删除成功");
         }
-        return new RespResult(RespCode.CODE_ENUM_FAIL, message + "删除失败，当前" + message + "不可操作");
+        return RespResult.error(response, RespCode.CODE_ENUM_FAIL, message + "删除失败，当前" + message + "不可操作");
     }
 
     @Override
-    public RespResult modify(T t, String message) {
-        return storage(t, message, FETCH);
+    public RespResult modify(HttpServletResponse response, HttpServletRequest request, T t, String message) {
+        return storage(response, t, message, FETCH);
     }
 
     @Override
-    public RespResult query(Query queryCondition) {
+    public RespResult query(HttpServletResponse response, HttpServletRequest request, Query queryCondition) {
         int total = baseMapper.queryTotal(queryCondition);
         List<T> userList = baseMapper.query(queryCondition);
         Page data = new Page();
         data.setTotal(total);
         data.setData(userList);
-        return new RespResult(RespCode.SUCCESS, data);
+        return RespResult.success(response, data, "查询成功");
     }
 
     /**
@@ -60,7 +62,7 @@ public class BaseServiceImpl<T, Query> implements BaseService<T, Query>{
      * @param type
      * @return
      */
-    private RespResult storage(T t, String message, String type){
+    private RespResult storage(HttpServletResponse response, T t, String message, String type){
         int result = 0;
         try {
             if(INSERT.equals(type)){
@@ -70,24 +72,24 @@ public class BaseServiceImpl<T, Query> implements BaseService<T, Query>{
             }
 
             if (result > 0){
-                return new RespResult(RespCode.SUCCESS, type + message + "成功");
+                return RespResult.success(response, RespCode.SUCCESS, type + message + "成功");
             }else{
                 RespResult respResult;
                 switch (type){
                     case INSERT :
-                        respResult = new RespResult(RespCode.CODE_ENUM_FAIL, message + type + "失败");
+                        respResult = RespResult.error(response, RespCode.CODE_ENUM_FAIL, message + type + "失败");
                         break;
                     case FETCH :
-                        respResult = new RespResult(RespCode.CODE_ENUM_FAIL, message + type + "失败," + type + "用户不可操作");
+                        respResult = RespResult.error(response, RespCode.CODE_ENUM_FAIL, message + type + "失败," + type + "用户不可操作");
                         break;
                     default:
-                        respResult = new RespResult(RespCode.CODE_ENUM_FAIL);
+                        respResult = RespResult.error(response, RespCode.CODE_ENUM_FAIL, "");
                 }
                 return respResult;
             }
         } catch (Exception e){
             log.error(type + "失败,报错信息:[{}]", e.getMessage(), e);
-            return new RespResult(RespCode.CODE_ENUM_FAIL, type + "失败无法保存数据库");
+            return RespResult.error(response, RespCode.CODE_ENUM_FAIL, type + "失败无法保存数据库");
         }
     }
 }
