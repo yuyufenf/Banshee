@@ -2,7 +2,7 @@ server:
   port: 11003
 spring:
   application:
-    name: banshee-files               # 配置服务名称
+    name: banshee-user               # 配置服务名称
   servlet:
     multipart:
       max-file-size: 3072MB
@@ -99,7 +99,7 @@ management:
       enabled: false
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml                                      # 与Mapper接口文件进行映射
-  typeAliasesPackage: com.banshee.files.entity                                         # xml中标签的实体类对应的包的位置
+  typeAliasesPackage: com.banshee.user.entity                                         # xml中标签的实体类对应的包的位置
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

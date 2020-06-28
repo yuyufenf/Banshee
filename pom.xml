@@ -12,6 +12,7 @@
         <module>banshee-commons</module>
         <module>banshee-files</module>
         <module>banshee-gateway</module>
+        <module>banshee-user</module>
     </modules>
     <name>Banshee</name>
     <description>个人分布式框架搭建</description>

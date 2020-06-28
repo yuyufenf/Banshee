@@ -2,15 +2,15 @@ server:
   port: 11000
 spring:
   application:
-    name: signature-gateway               # 配置服务名称
+    name: banshee-gateway               # 配置服务名称
   servlet:
     multipart:
       max-file-size: 3072MB
       max-request-size: 3072MB
   datasource:
-    url: jdbc:mysql://localhost:53306/YinJianKa?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf-8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
-    username: YinJianKa
-    password: YinJianKa
+    url: jdbc:mysql://localhost:3306/framework?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf-8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: developer
+    password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
     platform: mysql
     type: com.alibaba.druid.pool.DruidDataSource
@@ -59,7 +59,7 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-    password: wanjiakeji
+    password:
     database: 2
     timeout: 10000
     lettuce:
@@ -124,7 +124,7 @@ spring:
                 method: GET
     nacos:                                                                          # 注册中心(注意启动类上要加上@EnableDiscoveryClient)
       discovery:
-        server-addr: http://192.168.1.20:7100                                       # 注册中心地址
+        server-addr: http://localhost:7100                                       # 注册中心地址
 #        namespace:  bc86818d-97c8-4878-ba72-7d2c2b1242e7                            # nacos上
 
 
@@ -170,7 +170,7 @@ management:                                                                     
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  typeAliasesPackage: com.wanjia.gateway.entity
+  typeAliasesPackage: com.banshee.gateway.entity
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
