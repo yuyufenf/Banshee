@@ -1,6 +1,6 @@
 package com.gundam.commons.base;
 
-import com.gundam.commons.utils.IdUtil;
+import com.gundam.commons.utils.OrderIdUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public abstract class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2383962095358069350L;
 
-    private IdUtil idUtil = new IdUtil(1, 1);
+    private OrderIdUtil idUtil = new OrderIdUtil(1, 1);
 
     @ApiModelProperty(value = "字段ID(\"后端自动生成\")", required = true)
     protected Long id;

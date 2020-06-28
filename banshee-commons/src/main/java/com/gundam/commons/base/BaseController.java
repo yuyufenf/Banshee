@@ -1,7 +1,7 @@
 package com.gundam.commons.base;
 
 
-import com.gundam.commons.entity.RespCode;
+import com.gundam.commons.utils.enumerate.RespCode;
 import com.gundam.commons.entity.RespResult;
 
 import javax.servlet.http.HttpServletRequest;

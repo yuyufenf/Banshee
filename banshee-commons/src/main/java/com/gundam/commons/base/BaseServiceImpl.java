@@ -1,6 +1,6 @@
 package com.gundam.commons.base;
 
-import com.gundam.commons.entity.RespCode;
+import com.gundam.commons.utils.enumerate.RespCode;
 import com.gundam.commons.entity.RespResult;
 import com.gundam.commons.utils.Page;
 import lombok.extern.slf4j.Slf4j;

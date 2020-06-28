@@ -1,4 +1,4 @@
-package com.gundam.commons.entity;
+package com.gundam.commons.utils.enumerate;
 
 /**
  * @author kampf

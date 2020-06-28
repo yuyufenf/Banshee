@@ -6,7 +6,7 @@ package com.gundam.commons.utils;
  * @date 2020/4/9 下午3:49
  */
 @SuppressWarnings("AlibabaUndefineMagicConstant")
-public class IdUtil {
+public class OrderIdUtil {
 
     /** 起始的时间戳*/
     private final static long START_STMP = 1480166465631L;
@@ -37,7 +37,7 @@ public class IdUtil {
     /** 上一次时间戳*/
     private long lastStmp = -1L;
 
-    public IdUtil(long datacenterId, long machineId) {
+    public OrderIdUtil(long datacenterId, long machineId) {
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }

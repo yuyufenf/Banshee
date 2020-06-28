@@ -1,5 +1,6 @@
 package com.gundam.commons.entity;
 
+import com.gundam.commons.utils.enumerate.RespCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
